@@ -93,9 +93,10 @@ body.ta .btn{letter-spacing:.02em;text-transform:none;font-size:15px}
 .hero{position:relative;min-height:100svh;background:var(--red);color:#fff;display:flex;flex-direction:column;justify-content:space-between;padding:110px 0 36px;overflow:hidden}
 .hero{isolation:isolate}
 .hero-media{position:absolute;inset:0;z-index:0;overflow:hidden;background:var(--ink)}
-.hero-media video{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.08);will-change:transform;opacity:0;transition:opacity 1.2s var(--ease)}
+/* framing: zoom toward the shop (upper-left) so the generator's corner mark sits outside the frame */
+.hero-media video{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.22);transform-origin:38% 38%;will-change:transform;opacity:0;transition:opacity 1.2s var(--ease)}
 .hero-media video.on{opacity:1}
-.hero-media::before{content:"";position:absolute;inset:0;background:url(assets/hero-poster.jpg) center/cover;transform:scale(1.08)}
+.hero-media::before{content:"";position:absolute;inset:0;background:url(assets/hero-poster.jpg) center/cover;transform:scale(1.22);transform-origin:38% 38%}
 .hero::before{content:"";position:absolute;inset:0;z-index:1;background:var(--red);mix-blend-mode:multiply;opacity:.48;pointer-events:none}
 .hero::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(10,10,10,.55) 0%,rgba(10,10,10,0) 26%,rgba(10,10,10,0) 60%,rgba(10,10,10,.7) 100%);pointer-events:none}
 .hero-top{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;position:relative;z-index:2;border-bottom:1px solid rgba(255,255,255,.35);padding-bottom:16px}
@@ -334,20 +335,44 @@ body.ta #bar button{letter-spacing:.02em;text-transform:none;font-size:14px}
   .tab{white-space:nowrap;border:0;padding:16px 0;font-size:.9rem}.tab span{display:none}.tab.on{padding-left:0;box-shadow:inset 0 -3px 0 var(--red)}
   .stats-g{grid-template-columns:1fr 1fr}.st:nth-child(2){border-right:0;margin-right:0}.st:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.35);margin-bottom:24px}
   .visit-g{grid-template-columns:1fr}
-  .gal-g{columns:2}
+  /* gallery: a fixed-ratio grid instead of ragged columns — one wide hero shot, then even squares */
+  .gal-g{columns:auto;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .ph{margin:0;aspect-ratio:1}
+  .ph:first-child{grid-column:1/-1;aspect-ratio:16/10}
+  .ph img{height:100%;object-fit:cover}
   .badge{display:none}
 }
 @media(max-width:640px){
   body{font-size:14px}
-  .nav-in{height:64px}.brand svg{width:38px;height:38px}.brand b{font-size:1rem}.brand small{font-size:8px}
-  .tools{gap:8px}.lang button{padding:6px 6px}.cartbtn{padding:11px 13px}.cartbtn .lbl{display:none}
-  .hero{padding-top:90px}
+  .nav-in{height:64px;gap:10px}.brand{gap:9px;min-width:0}.brand svg{width:36px;height:36px}
+  .brand b{font-size:.95rem}.brand small{font-size:7px;letter-spacing:.3em;white-space:nowrap}
+  .tools{gap:6px;flex:none}.lang button{padding:6px 5px;font-size:11px}.cartbtn{padding:11px 12px}.cartbtn .lbl{display:none}
+  .burger{width:42px;height:42px}
+  .hero{padding-top:84px;padding-bottom:28px}
+  .hero-media video,.hero-media::before{object-position:50% 50%;background-position:50% 50%}
   .hero-top span:nth-child(3){display:none}
   .badge{display:none}
-  .hero-bot{flex-direction:column;align-items:flex-start}
-  .btn{padding:17px 26px}
-  .row{grid-template-columns:76px 1fr 88px;gap:4px 14px;padding:16px 0}
-  .thumb{width:76px;grid-row:1/3}
+  .hero-bot{flex-direction:column;align-items:stretch;gap:22px}
+  .cta{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .btn{padding:17px 12px;letter-spacing:.14em;white-space:nowrap;gap:10px}
+  .vcta .btn .ar{display:none}
+  /* tighter vertical rhythm on phones */
+  .intro{padding:76px 0}
+  .sig,#menu,.gal,.visit,.stats{padding-top:72px;padding-bottom:72px}
+  .head,.sig-h,.m-head,.gal-h{margin-bottom:32px}
+  .search{width:100%}
+  /* favourites: touch swipe, fixed 4:5 cards, no arrow buttons */
+  .arrows{display:none}
+  .card{width:80vw;height:auto;aspect-ratio:4/5;padding:22px}
+  .card .cimg{height:60%}
+  .card .pr{margin-top:14px;padding-top:12px}
+  .vcta{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .vfig{margin-top:28px}
+  .say{margin-top:44px}
+  .row{grid-template-columns:68px minmax(0,1fr) auto;gap:4px 12px;padding:16px 0}
+  .thumb{width:68px;grid-row:1/3}
+  .row h4{font-size:clamp(.98rem,4.3vw,1.15rem);font-stretch:100%;overflow-wrap:anywhere}
+  .cat-h{gap:12px}.cat-h h3{min-width:0;font-size:clamp(1.5rem,7.4vw,2rem);overflow-wrap:anywhere}.cat-h .ico{width:38px;height:38px}
   .row .pr2{grid-column:2;grid-row:2;text-align:left;display:flex;gap:10px;align-items:baseline}
   .row .pr2 b{display:inline;font-size:1.1rem}
   .slot{grid-column:3;grid-row:1/3}
@@ -355,7 +380,7 @@ body.ta #bar button{letter-spacing:.02em;text-transform:none;font-size:14px}
   .irow{grid-template-columns:1fr;gap:4px}
   .dh,.db,.df{padding-left:20px;padding-right:20px}
   .arrows button{width:50px;height:50px}
-  .gal-g{column-gap:10px}.ph{margin-bottom:10px}.ph figcaption{left:12px;right:12px;bottom:12px}.ph figcaption span{font-size:.8rem}.ph figcaption b{display:none}
+  .gal-g{gap:10px}.ph figcaption{left:12px;right:12px;bottom:12px}.ph figcaption span{font-size:.78rem}.ph figcaption b{display:none}
   .mq{padding:18px 0}
 }
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.rv,.lt{opacity:1;transform:none}.hero-media video{display:none}}
@@ -652,7 +677,7 @@ addEventListener('scroll',onScroll,{passive:true});
 // marquee driven by scroll velocity
 let mx=0;(function loop(){const y=scrollY;vel+= (y-lastY-vel)*.12;lastY=y;mx-=1.1+Math.abs(vel)*.35*(vel>=0?1:-1);const tr=$('#mq');if(tr){const half=tr.scrollWidth/3;if(half){if(mx<-half)mx+=half;if(mx>0)mx-=half}tr.style.transform=`translate3d(${mx}px,0,0) skewX(${Math.max(-8,Math.min(8,-vel*.25))}deg)`}requestAnimationFrame(loop)})();
 // hero parallax
-const hero=$('.hero');hero.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;$('#word').style.transform=`translate3d(${x*-14}px,${y*-8}px,0)`;$('#hv').style.transform=`scale(1.08) translate3d(${x*12}px,${y*8}px,0)`});
+const hero=$('.hero');hero.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;$('#word').style.transform=`translate3d(${x*-14}px,${y*-8}px,0)`;$('#hv').style.transform=`scale(1.22) translate3d(${x*10}px,${y*6}px,0)`});
 // hero video: play only when visible, never for reduced-motion users
 const hv=$('#hv'),reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
 if(!reduce){hv.addEventListener('playing',()=>hv.classList.add('on'),{once:true});
